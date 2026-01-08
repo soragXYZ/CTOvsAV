@@ -1,8 +1,8 @@
-from simu import tax_direct
-
-def test_tax_direct():
+from simu import tax_direct, tax_first_degree
 
 # https://www.service-public.gouv.fr/simulateur/calcul/droits-succession#main
+
+def test_tax_direct():
 
     assert tax_direct(0) == 0
     assert tax_direct(50000) == 0
@@ -15,3 +15,13 @@ def test_tax_direct():
     assert tax_direct(700000) == 122961.95
     assert tax_direct(1500000) == 412678.15
     assert tax_direct(2000000) == 617394.3
+
+def test_second_degree():
+
+    assert tax_first_degree(0) == 0
+    assert tax_first_degree(15000) == 0
+    assert tax_first_degree(16000) == 23.8
+    assert tax_first_degree(20000) == 1423.8
+    assert tax_first_degree(30000) == 4923.8
+    assert tax_first_degree(50000) == 12887.6
+    assert tax_first_degree(100000) == 35387.6

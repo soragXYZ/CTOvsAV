@@ -3,7 +3,7 @@ import numpy as np
 
 # https://www.service-public.gouv.fr/particuliers/vosdroits/F35794
 
-# Son / grand son / parents
+# Son / grand son / parents => FIRST DEGREE
 TAX_DIRECT_DEDUCTION = 100000
 TAX_DIRECT_5 = 0.05
 TAX_DIRECT_5_MAX = 8072
@@ -20,10 +20,10 @@ TAX_DIRECT_40_MAX = 1805677
 TAX_DIRECT_45 = 0.45
 
 # Brother / Sister
-TAX_FIRST_DEGREE_DEDUCTION = 15932
-TAX_FIRST_DEGREE_35 = 0.35
-TAX_FIRST_DEGREE_35_MAX = 24430
-TAX_FIRST_DEGREE_45 = 0.45
+TAX_BS_DEDUCTION = 15932
+TAX_BS_35 = 0.35
+TAX_BS_35_MAX = 24430
+TAX_BS_45 = 0.45
 
 # AV
 TAX_AV_DEDUCTION = 152500
@@ -36,38 +36,55 @@ def tax_direct(capital) -> float:
 
     results = 0.0
 
-    # x <= 0 
+    # 0
     if capital <= TAX_DIRECT_DEDUCTION:
         result = 0.0
     
-    # 0 < x <= 5
+    # 5
     elif TAX_DIRECT_DEDUCTION < capital and capital <= TAX_DIRECT_DEDUCTION + TAX_DIRECT_5_MAX:
         result = (capital-TAX_DIRECT_DEDUCTION)*TAX_DIRECT_5
 
-    # 5 < x <= 10
+    # 10
     elif TAX_DIRECT_DEDUCTION + TAX_DIRECT_5_MAX < capital and capital <= TAX_DIRECT_DEDUCTION + TAX_DIRECT_10_MAX:
         result = (capital - TAX_DIRECT_5_MAX - TAX_DIRECT_DEDUCTION)*TAX_DIRECT_10 + TAX_DIRECT_5_MAX*TAX_DIRECT_5
 
-    # 10 < x <= 15
+    # 15
     elif TAX_DIRECT_DEDUCTION + TAX_DIRECT_10_MAX < capital and capital <= TAX_DIRECT_DEDUCTION + TAX_DIRECT_15_MAX:
         result = (capital - TAX_DIRECT_10_MAX - TAX_DIRECT_DEDUCTION)*TAX_DIRECT_15 + (TAX_DIRECT_10_MAX-TAX_DIRECT_5_MAX)*TAX_DIRECT_10 + TAX_DIRECT_5_MAX*TAX_DIRECT_5
 
-    # 15 < x <= 20
+    # 20
     elif TAX_DIRECT_DEDUCTION + TAX_DIRECT_15_MAX < capital and capital <= TAX_DIRECT_DEDUCTION + TAX_DIRECT_20_MAX:
         result = (capital - TAX_DIRECT_15_MAX - TAX_DIRECT_DEDUCTION)*TAX_DIRECT_20 + (TAX_DIRECT_15_MAX-TAX_DIRECT_10_MAX)*TAX_DIRECT_15 + (TAX_DIRECT_10_MAX-TAX_DIRECT_5_MAX)*TAX_DIRECT_10 + TAX_DIRECT_5_MAX*TAX_DIRECT_5
 
-    # 20 < x <= 30
+    # 30
     elif TAX_DIRECT_DEDUCTION + TAX_DIRECT_20_MAX < capital and capital <= TAX_DIRECT_DEDUCTION + TAX_DIRECT_30_MAX:
         result = (capital - TAX_DIRECT_20_MAX - TAX_DIRECT_DEDUCTION)*TAX_DIRECT_30 + (TAX_DIRECT_20_MAX-TAX_DIRECT_15_MAX)*TAX_DIRECT_20 + (TAX_DIRECT_15_MAX-TAX_DIRECT_10_MAX)*TAX_DIRECT_15 + (TAX_DIRECT_10_MAX-TAX_DIRECT_5_MAX)*TAX_DIRECT_10 + TAX_DIRECT_5_MAX*TAX_DIRECT_5
 
-    # 30 < x <= 40
+    # 40
     elif TAX_DIRECT_DEDUCTION + TAX_DIRECT_30_MAX < capital and capital <= TAX_DIRECT_DEDUCTION + TAX_DIRECT_40_MAX:
         result = (capital - TAX_DIRECT_30_MAX - TAX_DIRECT_DEDUCTION)*TAX_DIRECT_40 + (TAX_DIRECT_30_MAX-TAX_DIRECT_20_MAX)*TAX_DIRECT_30 + (TAX_DIRECT_20_MAX-TAX_DIRECT_15_MAX)*TAX_DIRECT_20 + (TAX_DIRECT_15_MAX-TAX_DIRECT_10_MAX)*TAX_DIRECT_15 + (TAX_DIRECT_10_MAX-TAX_DIRECT_5_MAX)*TAX_DIRECT_10 + TAX_DIRECT_5_MAX*TAX_DIRECT_5
 
-    # 40 < x
+    # 45
     else:
         result = (capital - TAX_DIRECT_40_MAX - TAX_DIRECT_DEDUCTION)*TAX_DIRECT_45 + (TAX_DIRECT_40_MAX-TAX_DIRECT_30_MAX)*TAX_DIRECT_40 + (TAX_DIRECT_30_MAX-TAX_DIRECT_20_MAX)*TAX_DIRECT_30 + (TAX_DIRECT_20_MAX-TAX_DIRECT_15_MAX)*TAX_DIRECT_20 + (TAX_DIRECT_15_MAX-TAX_DIRECT_10_MAX)*TAX_DIRECT_15 + (TAX_DIRECT_10_MAX-TAX_DIRECT_5_MAX)*TAX_DIRECT_10 + TAX_DIRECT_5_MAX*TAX_DIRECT_5
 
     return round(result, 2)
 
-print(tax_direct(100000))
+# Return tax for the given capital with brother / sister
+def tax_first_degree(capital) -> float:
+
+    results = 0.0
+
+    # 0
+    if capital <= TAX_BS_DEDUCTION:
+        result = 0.0
+    
+    # 35
+    elif TAX_BS_DEDUCTION < capital and capital <= TAX_BS_DEDUCTION + TAX_BS_35_MAX:
+        result = (capital-TAX_BS_DEDUCTION)*TAX_BS_35
+    
+    # 45
+    else:
+        result = (capital-TAX_BS_35_MAX-TAX_BS_DEDUCTION)*TAX_BS_45 + TAX_BS_35_MAX*TAX_BS_35
+
+    return round(result, 2)
