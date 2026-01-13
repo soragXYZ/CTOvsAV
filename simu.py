@@ -190,6 +190,8 @@ def main():
     fig, ax = plt.subplots()
     im = ax.imshow(heatmap, origin="lower", extent=ext, aspect="auto", cmap = 'seismic')
 
+    # Line where CTO = AV
+    plt.contour(heatmap, levels=[0], colors="black", linewidths=2, extent=ext)
 
     # Set y labels
     y_idx, y_labels = [], []
